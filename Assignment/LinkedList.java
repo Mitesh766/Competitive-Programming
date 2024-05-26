@@ -84,6 +84,28 @@ public class LinkedList {
         return slow;
     }
 
+    private static Node[] splitAtIndex(Node head, int index) {
+        if (index < 0 || head == null) {
+            return new Node[] { head, null };
+        }
+
+        Node current = head;
+        Node prev = null;
+        int count = 0;
+
+        while (current != null && count < index) {
+            prev = current;
+            current = current.next;
+            count++;
+        }
+
+        if (prev != null) {
+            prev.next = null;  
+        }
+
+        return new Node[] { head, current };
+    }
+
     private static Node mergeTwoLL(Node head1, Node head2) {
         Node temp = head1;
         if (temp == null)
@@ -98,27 +120,30 @@ public class LinkedList {
     }
 
     private static Node interLeaveLL(Node head1, Node head2) {
-        if (head1 == null)
-            return head2;
-        Node curr1 = head1;
-        Node curr2 = head2;
-        Node temp1 = curr1.next;
-        Node temp2 = curr2.next;
+        if (head1 == null) return head2;
+        if (head2 == null) return head1;
+
+        Node temp1 = head1;
+        Node temp2 = head2;
+
         while (temp1 != null && temp2 != null) {
-            curr1.next = curr2;
-            curr1 = temp1;
-            temp1 = temp1.next;
-            curr2.next = curr1;
-            curr2 = temp2;
-            temp2 = temp2.next;
+            Node next1 = temp1.next;
+            Node next2 = temp2.next;
+
+            temp1.next = temp2;  
+            if (next1 == null) break;  
+
+            temp2.next = next1; 
+            temp1 = next1;
+            temp2 = next2;
         }
-        if (temp2 != null) {
-            curr1.next = curr2;
-        } else {
-            curr2.next = curr1;
+
+        if (temp1 == null) {
+            temp1.next = temp2;
         }
 
         return head1;
+
     }
 
     private static Node insertAtIndex(Node head, int index, int ele) {
@@ -139,6 +164,21 @@ public class LinkedList {
             temp = temp.next;
         }
         return head;
+    }
+
+    private static int indexOf(Node head, int element) {
+        int index = 0;  
+        Node current = head;
+
+        while (current != null) {
+            if (current.data == element) {
+                return index;  
+            }
+            current = current.next;  
+            index++;  
+        }
+
+        return -1;  
     }
 
     private static Node rotateLLByKPosition(Node head, int k) {
@@ -190,12 +230,26 @@ public class LinkedList {
         return head;
     }
 
+    private static Node reverseASLL(Node head){
+        // if(head==null || head.next==null) return head;
+        Node prev=null;
+        Node curr=head;
+        Node front=head;
+        while(curr!=null){
+            front=front.next;
+            curr.next=prev;
+            prev=curr;
+            curr=front;
+        }
+        return prev;
+    }
     public static void main(String[] args) {
 
-        int[] arr1 = { 1, 2, 3 };
-        int[] arr2 = { 4, 5, 6 };
+        int[] arr1 = {1,2,3,6,7,10};
+        int[] arr2 = {4,5,8,9};
         Node head1 = convertingArrToLL(arr1);
-        Node head = deleteAtIndex(head1, 4);
+        Node head2 = convertingArrToLL(arr2);
+        Node head = interLeaveLL(head1,head2);
         traversingALL(head);
 
     }
