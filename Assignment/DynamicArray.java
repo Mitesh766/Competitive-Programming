@@ -84,9 +84,11 @@ public class DynamicArray {
     }
 
     public void rotateRight(int k) {
-        if (size == 0) return;
+        if (size == 0)
+            return;
         k = k % size;
-        if (k < 0) k += size;
+        if (k < 0)
+            k += size;
         reverse(0, size - 1);
         reverse(0, k - 1);
         reverse(k, size - 1);
@@ -163,7 +165,7 @@ public class DynamicArray {
         for (int i = index; i < size; i++) {
             second.append(data[i]);
         }
-        return new DynamicArray[]{first, second};
+        return new DynamicArray[] { first, second };
     }
 
     public static void main(String[] args) {
@@ -172,37 +174,15 @@ public class DynamicArray {
         arr.append(2);
         arr.append(3);
 
-        System.out.println("Array: " + Arrays.toString(Arrays.copyOf(arr.data, arr.size())));
-
         arr.prepend(0);
-        System.out.println("Array after prepending: " + Arrays.toString(Arrays.copyOf(arr.data, arr.size())));
 
         arr.insert(2, 10);
-        System.out.println("Array after insertion: " + Arrays.toString(Arrays.copyOf(arr.data, arr.size())));
 
         arr.delete(2);
-        System.out.println("Array after deletion: " + Arrays.toString(Arrays.copyOf(arr.data, arr.size())));
 
         arr.rotateRight(2);
-        System.out.println("Array after rotation: " + Arrays.toString(Arrays.copyOf(arr.data, arr.size())));
 
         arr.reverse();
-        System.out.println("Array after reversal: " + Arrays.toString(Arrays.copyOf(arr.data, arr.size())));
 
-        DynamicArray arr2 = new DynamicArray(3);
-        arr2.append(6);
-        arr2.append(7);
-        arr2.append(8);
-
-        System.out.println("Merged array: " + Arrays.toString(Arrays.copyOf(merge(arr, arr2).data, arr.size() + arr2.size())));
-
-        System.out.println("Interleaved array: " + Arrays.toString(Arrays.copyOf(interleave(arr, arr2).data, arr.size() + arr2.size())));
-
-        System.out.println("Middle element: " + arr.middleElement());
-        System.out.println("Index of 2: " + arr.indexOf(2));
-
-        DynamicArray[] split = arr.splitAtIndex(2);
-        System.out.println("First part: " + Arrays.toString(Arrays.copyOf(split[0].data, split[0].size())));
-        System.out.println("Second part: " + Arrays.toString(Arrays.copyOf(split[1].data, split[1].size())));
     }
 }
